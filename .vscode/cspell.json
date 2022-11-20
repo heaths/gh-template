@@ -1,0 +1,15 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "GOVERSION"
+  ],
+  "overrides": [
+    {
+      "filename": "**/*.md",
+      "dictionaries": [
+        "golang"
+      ]
+    }
+  ]
+}

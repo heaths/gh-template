@@ -1,0 +1,72 @@
+# Copyright 2022 Heath Stewart.
+# Licensed under the MIT License. See LICENSE.txt in the project root for license information.
+
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches:
+    - main
+  workflow_call:
+    inputs:
+      release:
+        description: Whether this is running as part of a release workflow.
+        required: false
+        type: boolean
+        default: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  GOVERSION: "1.19"
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: windows-latest
+          goos: windows
+          lint: true
+        - os: ubuntu-latest
+          goos: linux
+          lint: true
+        - os: macos-latest
+          goos: darwin
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Go ${{ env.GOVERSION }}
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ env.GOVERSION }}
+        cache: false # Set to `true` when dependencies are added.
+    - name: Test
+      run: GOOS=${{ matrix.goos }} go test ./... -cover -v
+    - name: Lint
+      if: ${{ !cancelled() && matrix.lint }}
+      # cspell:ignore golangci
+      uses: golangci/golangci-lint-action@v3
+      with:
+        only-new-issues: true
+        skip-pkg-cache: true
+
+  check:
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+    needs:
+    - test
+    steps:
+    - name: Check
+      run: |
+        if [[ "${{ needs.test.result }}" == "success" ]]; then
+          echo -e "\e[32mSuccess\e[0m"
+        else
+          echo -e "\e[31mFailed\e[0m"
+          exit 1
+        fi

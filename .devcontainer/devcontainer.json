@@ -1,0 +1,13 @@
+{
+  "name": "Go",
+  "image": "mcr.microsoft.com/devcontainers/go:1-buster",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "editorconfig.editorconfig",
+        "golang.go",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  }
+}

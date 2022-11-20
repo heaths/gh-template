@@ -1,0 +1,31 @@
+# Copyright 2022 Heath Stewart.
+# Licensed under the MIT License. See LICENSE.txt in the project root for license information.
+
+name: release
+
+on:
+  push:
+    tags:
+    - "v*"
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+    with:
+      release: true
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - name: Release
+      run: gh release create ${{ github.ref_name }} --generate-notes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
