@@ -65,6 +65,8 @@ func main() {
 	rootCmd.PersistentFlags().StringVarP(&repo, "repo", "R", "", "Select another repository to use using the [HOST/]OWNER/REPO format")
 	rootCmd.PersistentFlags().BoolVarP(&opts.Verbose, "verbose", "v", false, "Log verbose output")
 
+	rootCmd.AddCommand(cmd.ApplyCmd(opts))
+
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
