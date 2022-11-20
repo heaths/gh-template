@@ -4,8 +4,6 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/heaths/go-template"
 	"github.com/spf13/cobra"
 	"golang.org/x/text/language"
@@ -51,14 +49,10 @@ type applyOptions struct {
 func apply(opts *applyOptions) error {
 	opts.params["github.host"] = opts.Repo.Host()
 	opts.params["github.owner"] = opts.Repo.Owner()
-	opts.params["github.name"] = opts.Repo.Name()
+	opts.params["github.repo"] = opts.Repo.Name()
 
-	pwd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
-	return template.Apply(pwd, opts.params,
+	return template.Apply(".", opts.params,
 		template.WithLanguage(opts.language),
+		template.WithLogger(opts.Log, opts.Verbose),
 	)
 }

@@ -60,6 +60,7 @@ func main() {
 
 			return
 		},
+		SilenceUsage: true,
 	}
 
 	rootCmd.PersistentFlags().StringVarP(&repo, "repo", "R", "", "Select another repository to use using the [HOST/]OWNER/REPO format")
