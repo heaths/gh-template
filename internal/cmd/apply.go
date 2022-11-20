@@ -20,6 +20,12 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			opts.GlobalOptions = *globalOpts
 
+			// Always add .github to avoid processing workflows using ${{...}} expressions.
+			if opts.exclusions == nil {
+				opts.exclusions = make([]string, 0)
+			}
+			opts.exclusions = append(opts.exclusions, ".github")
+
 			opts.language, err = language.Parse(lang)
 			if err != nil {
 				return
@@ -33,7 +39,8 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVarP(&lang, "language", "l", "en", "Language ")
+	cmd.Flags().StringSliceVarP(&opts.exclusions, "exclude", "x", nil, "Paths to exclude")
+	cmd.Flags().StringVarP(&lang, "language", "l", "en", "Language for some template functions")
 	cmd.Flags().StringToStringVarP(&opts.params, "param", "p", nil, "Parameters to apply to project template")
 
 	return cmd
@@ -42,8 +49,9 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 type applyOptions struct {
 	GlobalOptions
 
-	language language.Tag
-	params   map[string]string
+	exclusions []string
+	language   language.Tag
+	params     map[string]string
 }
 
 func apply(opts *applyOptions) error {
@@ -52,6 +60,7 @@ func apply(opts *applyOptions) error {
 	opts.params["github.repo"] = opts.Repo.Name()
 
 	return template.Apply(".", opts.params,
+		template.WithExclusions(opts.exclusions),
 		template.WithLanguage(opts.language),
 		template.WithLogger(opts.Log, opts.Verbose),
 	)
