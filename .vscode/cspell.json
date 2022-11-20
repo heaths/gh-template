@@ -3,6 +3,7 @@
   "language": "en",
   "words": [
     "GOVERSION",
+    "rustlang",
     "titlecase"
   ],
   "overrides": [

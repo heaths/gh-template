@@ -64,6 +64,19 @@ the following functions are also available:
 * `uppercase <string>`\
   Change the case of `<string>` to UPPERCASE characters.
 
+You can also nest function calls. To default a project name to the GitHub repo name, for example:
+
+```text
+{{param "name" (param "github.repo") "What is the project name?"}}
+```
+
+### Examples
+
+See the following template repositories for examples:
+
+* [heaths/template-golang](https://github.com/heaths/template-golang)
+* [heaths/template-rustlang](https://github.com/heaths/template-rustlang)
+
 ## License
 
 Licensed under the [MIT](LICENSE.txt) license.
