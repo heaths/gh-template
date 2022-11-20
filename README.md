@@ -1,12 +1,19 @@
-# Template
+# Project Template Extension
 
-To create a new repository from this template repository for Go projects,
-using the [GitHub CLI](https://github.com/cli/cli) run:
+A [GitHub CLI] extension to format a project template.
+
+## Example
+
+To create a new repository from a template and format it:
 
 ```bash
-gh repo create <name> --template heaths/template-golang --public --clone
+gh repo clone <name> --template <template> --clone
+cd <template>
+gh template apply
 ```
 
-This will create a new repo with the given `<name>` in GitHub, copy the
-`heaths/template-golang` files into that repo, and clone it into a
-subdirectory of the current directory named `<name>`.
+## License
+
+Licensed under the [MIT](LICENSE.txt) license.
+
+[GitHub CLI]: https://github.com/cli/cli
