@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/cli/go-gh v1.0.0
-	github.com/heaths/go-console v0.7.0
-	github.com/heaths/go-template v0.1.1
+	github.com/heaths/go-console v0.7.1
+	github.com/heaths/go-template v0.2.0
 	github.com/spf13/cobra v1.6.1
 	golang.org/x/text v0.4.0
 )
@@ -26,8 +26,9 @@ require (
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/thlib/go-timezone-local v0.0.0-20210907160436-ef149e42d28e // indirect
+	golang.org/x/exp v0.0.0-20221114191408-850992195362 // indirect
 	golang.org/x/net v0.0.0-20220923203811-8be639271d50 // indirect
-	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
