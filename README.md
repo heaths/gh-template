@@ -2,6 +2,14 @@
 
 A [GitHub CLI] extension to format a project template.
 
+## Install
+
+Make sure you have version 2.0 or [newer] of the [GitHub CLI] installed.
+
+```bash
+gh extension install heaths/gh-template
+```
+
 ## Usage
 
 To create a new repository from a template and format it:
@@ -61,3 +69,4 @@ the following functions are also available:
 Licensed under the [MIT](LICENSE.txt) license.
 
 [GitHub CLI]: https://github.com/cli/cli
+[newer]: https://github.com/cli/cli/releases/latest
