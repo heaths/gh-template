@@ -4,6 +4,9 @@
 package cmd
 
 import (
+	"fmt"
+
+	"github.com/heaths/gh-template/internal/git"
 	"github.com/heaths/go-template"
 	"github.com/spf13/cobra"
 	"golang.org/x/text/language"
@@ -18,7 +21,7 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 		Short: "Apply project template parameters",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			opts.GlobalOptions = *globalOpts
+			opts.GlobalOptions = globalOpts
 
 			// Always add .github to avoid processing workflows using ${{...}} expressions.
 			if opts.exclusions == nil {
@@ -47,7 +50,7 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 }
 
 type applyOptions struct {
-	GlobalOptions
+	*GlobalOptions
 
 	exclusions []string
 	language   language.Tag
@@ -55,9 +58,19 @@ type applyOptions struct {
 }
 
 func apply(opts *applyOptions) error {
-	opts.params["github.host"] = opts.Repo.Host()
-	opts.params["github.owner"] = opts.Repo.Owner()
-	opts.params["github.repo"] = opts.Repo.Name()
+	if name, email, err := git.User(); err == nil {
+		fmt.Printf("name = %q, email = %q", name, email)
+		opts.params["git.name"] = name
+		opts.params["git.email"] = email
+	} else {
+		fmt.Printf("failed to get config: %v", err)
+	}
+
+	if opts.Repo != nil {
+		opts.params["github.host"] = opts.Repo.Host()
+		opts.params["github.owner"] = opts.Repo.Owner()
+		opts.params["github.repo"] = opts.Repo.Name()
+	}
 
 	return template.Apply(".", opts.params,
 		template.WithExclusions(opts.exclusions),
