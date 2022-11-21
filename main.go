@@ -9,7 +9,6 @@ import (
 	"os"
 
 	"github.com/cli/go-gh"
-	"github.com/cli/go-gh/pkg/auth"
 	"github.com/cli/go-gh/pkg/repository"
 	"github.com/heaths/gh-template/internal/cmd"
 	"github.com/heaths/go-console"
@@ -47,17 +46,6 @@ func main() {
 				return fmt.Errorf("no repository")
 			}
 
-			// Make sure the user is authenticated.
-			host := opts.Repo.Host()
-			if host == "" {
-				host, _ = auth.DefaultHost()
-			}
-
-			token, _ := auth.TokenForHost(host)
-			if token == "" {
-				return fmt.Errorf("use `gh auth login` to authenticate with required scopes")
-			}
-
 			return
 		},
 		SilenceUsage: true,
@@ -67,6 +55,7 @@ func main() {
 	rootCmd.PersistentFlags().BoolVarP(&opts.Verbose, "verbose", "v", false, "Log verbose output")
 
 	rootCmd.AddCommand(cmd.ApplyCmd(opts))
+	rootCmd.AddCommand(cmd.ListCmd(opts))
 
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
