@@ -231,6 +231,9 @@ func TestList(t *testing.T) {
 			globalOpts := &GlobalOptions{
 				Console: fake,
 				Repo:    repo,
+
+				authToken: "***",
+				host:      "github.com",
 			}
 			tt.opts.GlobalOptions = globalOpts
 

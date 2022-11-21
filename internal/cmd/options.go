@@ -18,6 +18,10 @@ type GlobalOptions struct {
 	Verbose bool
 
 	Repo repository.Repository
+
+	// Test-only options.
+	host      string
+	authToken string
 }
 
 func (opts *GlobalOptions) IsAuthenticated() error {

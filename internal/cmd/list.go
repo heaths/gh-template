@@ -47,6 +47,8 @@ type listOptions struct {
 func list(opts *listOptions) (err error) {
 	clientOpts := &api.ClientOptions{
 		// TODO: Set verbose logging via passthrough buffered writer.
+		AuthToken: opts.authToken,
+		Host:      opts.host,
 	}
 	client, err := gh.GQLClient(clientOpts)
 	if err != nil {
