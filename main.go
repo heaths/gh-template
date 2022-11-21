@@ -27,6 +27,7 @@ func main() {
 	rootCmd := &cobra.Command{
 		Use:   "template",
 		Short: "Format project templates",
+		Long:  "GitHub CLI extension to list and clone repository templates.",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 			if repo != "" {
 				opts.Repo, err = repository.Parse(repo)
@@ -50,6 +51,9 @@ func main() {
 		},
 		SilenceUsage: true,
 	}
+
+	rootCmd.SetOut(con.Stdout())
+	rootCmd.SetHelpFunc(cmd.AppendHelpFunc(rootCmd.HelpFunc()))
 
 	rootCmd.PersistentFlags().StringVarP(&repo, "repo", "R", "", "Select another repository to use using the [HOST/]OWNER/REPO format")
 	rootCmd.PersistentFlags().BoolVarP(&opts.Verbose, "verbose", "v", false, "Log verbose output")

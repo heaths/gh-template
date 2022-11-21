@@ -20,6 +20,7 @@ func ListCmd(globalOpts *GlobalOptions) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "Lists template repositories",
+		Long:  "List repository templates from user or organization accounts, and optionally any template repositories the user has starred.",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.GlobalOptions = globalOpts

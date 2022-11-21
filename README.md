@@ -67,6 +67,15 @@ the following functions are also available:
   Change the case of `<string>` to Title Case characters.
 * `uppercase <string>`\
   Change the case of `<string>` to UPPERCASE characters.
+* `date`\
+  Returns the current UTC date-time.
+* `date.Format <layout>`\
+  Formats the date-time according to [`time.Format`](https://pkg.go.dev/time#Time.Format).
+* `date.Local`\
+  Returns the current local date-time. You can call other `date` functions
+  on the returned value e.g., `date.Local.Year`.
+* `date.Year`\
+  Returns the current UTC year.
 
 You can also nest function calls. To default a project name to the GitHub repo name, for example:
 

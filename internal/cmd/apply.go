@@ -17,9 +17,11 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 	opts := &applyOptions{}
 
 	cmd := &cobra.Command{
-		Use:   "apply",
-		Short: "Apply project template parameters",
-		Args:  cobra.NoArgs,
+		Use:         "apply",
+		Short:       "Apply project template parameters",
+		Long:        "Apply parameters to an already cloned repository template. Any parameters not passed to --param will prompt the user for a value. These may include a default value used if the user does not enter a value.",
+		Annotations: annotations(),
+		Args:        cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			opts.GlobalOptions = globalOpts
 
@@ -42,7 +44,7 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringSliceVarP(&opts.exclusions, "exclude", "x", nil, "Paths to exclude")
+	cmd.Flags().StringSliceVarP(&opts.exclusions, "exclude", "x", nil, "Paths to exclude using case-insensitive comparisons")
 	cmd.Flags().StringVarP(&lang, "language", "l", "en", "Language for some template functions")
 	cmd.Flags().StringToStringVarP(&opts.params, "param", "p", nil, "Parameters to apply to project template")
 
