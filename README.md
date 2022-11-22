@@ -38,6 +38,10 @@ or already defined by the `apply` command.
 
 Within a GitHub repository, the following parameters are already defined.
 
+* `git.name`\
+  The configured `user.name` for a Git repository.
+* `git.email`\
+  The configured `user.email` for a Git repository.
 * `github.host`\
   The GitHub host e.g., "github.com" for "github.com/heaths/gh-template".
 * `github.owner`\
