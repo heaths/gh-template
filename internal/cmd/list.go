@@ -22,12 +22,17 @@ func ListCmd(globalOpts *GlobalOptions) *cobra.Command {
 		Short: "Lists template repositories",
 		Long:  "List repository templates from user or organization accounts, and optionally any template repositories the user has starred.",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			opts.GlobalOptions = globalOpts
 
-			err := globalOpts.IsAuthenticated()
+			err = globalOpts.EnsureRepository()
 			if err != nil {
-				return err
+				return
+			}
+
+			err = globalOpts.IsAuthenticated()
+			if err != nil {
+				return
 			}
 
 			return list(opts)

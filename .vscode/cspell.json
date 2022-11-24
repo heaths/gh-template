@@ -2,8 +2,10 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "errcheck",
     "gock",
     "GOVERSION",
+    "nolint",
     "rustlang",
     "stretchr",
     "tableprinter",
