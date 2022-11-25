@@ -15,10 +15,10 @@ gh extension install heaths/gh-template
 To create a new repository from a template and format it:
 
 ```bash
-gh repo clone <name> --template <template> --clone
-cd <template>
-gh template apply
+gh template clone <name> --template <template> --public
 ```
+
+![screenshot](assets/gh-template.gif)
 
 ## Templates
 
