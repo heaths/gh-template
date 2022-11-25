@@ -8,7 +8,11 @@
       "mode": "auto",
       "program": "${workspaceFolder}",
       "args": [
-        "apply"
+        "clone",
+        "test1",
+        "--template", "heaths/template-golang",
+        "--public",
+        "-d", "This is only a test."
       ]
     }
   ]

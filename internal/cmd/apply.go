@@ -4,8 +4,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/heaths/gh-template/internal/git"
 	"github.com/heaths/go-template"
 	"github.com/spf13/cobra"
@@ -13,7 +11,6 @@ import (
 )
 
 func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
-	var lang string
 	opts := &applyOptions{}
 
 	cmd := &cobra.Command{
@@ -24,31 +21,39 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 		Args:        cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			opts.GlobalOptions = globalOpts
-
-			// Always add .github to avoid processing workflows using ${{...}} expressions.
-			if opts.exclusions == nil {
-				opts.exclusions = make([]string, 0)
-			}
-			opts.exclusions = append(opts.exclusions, ".github")
-
-			opts.language, err = language.Parse(lang)
-			if err != nil {
-				return
-			}
-
-			if opts.params == nil {
-				opts.params = make(map[string]string)
-			}
-
 			return apply(opts)
 		},
 	}
 
-	cmd.Flags().StringSliceVarP(&opts.exclusions, "exclude", "x", nil, "Paths to exclude using case-insensitive comparisons")
-	cmd.Flags().StringVarP(&lang, "language", "l", "en", "Language for some template functions")
-	cmd.Flags().StringToStringVarP(&opts.params, "param", "p", nil, "Parameters to apply to project template")
-
+	applyFlags(cmd, opts)
 	return cmd
+}
+
+func applyFlags(c *cobra.Command, opts *applyOptions) {
+	var lang string
+
+	c.PreRunE = func(cmd *cobra.Command, args []string) (err error) {
+		// Always add .github to avoid processing workflows using ${{...}} expressions.
+		if opts.exclusions == nil {
+			opts.exclusions = make([]string, 0, 1)
+		}
+		opts.exclusions = append(opts.exclusions, ".github")
+
+		opts.language, err = language.Parse(lang)
+		if err != nil {
+			return
+		}
+
+		if opts.params == nil {
+			opts.params = make(map[string]string)
+		}
+
+		return
+	}
+
+	c.Flags().StringSliceVarP(&opts.exclusions, "exclude", "x", nil, "Any `paths` to exclude using case-insensitive comparisons")
+	c.Flags().StringVarP(&lang, "language", "l", "en", "BCP-47 language for some template functions")
+	c.Flags().StringToStringVarP(&opts.params, "param", "p", nil, "Parameters to apply to project template as `name=value`")
 }
 
 type applyOptions struct {
@@ -61,11 +66,10 @@ type applyOptions struct {
 
 func apply(opts *applyOptions) error {
 	if name, email, err := git.User(); err == nil {
-		fmt.Printf("name = %q, email = %q", name, email)
 		opts.params["git.name"] = name
 		opts.params["git.email"] = email
-	} else {
-		fmt.Printf("failed to get config: %v", err)
+	} else if opts.Verbose && opts.Log != nil {
+		opts.Log.Printf("failed to get git config: %v", err)
 	}
 
 	if opts.Repo != nil {

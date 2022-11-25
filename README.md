@@ -57,7 +57,8 @@ the following functions are also available:
 * `param <name> [<default> [<prompt>]]`\
   Replace with a parameter named `<name>`, or prompt using an optional `<default>`
   with an optional `<prompt>`. If a `<prompt>` is not specified, the required
-  `<name>` is used.
+  `<name>` is used. The type of `<default>` dictates valid input. Only `string`
+  and `int` are supported at this time.
 * `pluralize <count> <thing>`\
   Append an "s" to `<thing>` if `<count>` is not equal to 1. `<count>` can be
   either an `int` or a `string` representing an `int` e.g., "1".

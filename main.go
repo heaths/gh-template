@@ -4,11 +4,9 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
-	"github.com/cli/go-gh"
 	"github.com/cli/go-gh/pkg/repository"
 	"github.com/heaths/gh-template/internal/cmd"
 	"github.com/heaths/go-console"
@@ -36,17 +34,6 @@ func main() {
 				}
 			}
 
-			if opts.Repo == nil {
-				opts.Repo, err = gh.CurrentRepository()
-				if err != nil {
-					return
-				}
-			}
-
-			if opts.Repo == nil {
-				return fmt.Errorf("no repository")
-			}
-
 			return
 		},
 		SilenceUsage: true,
@@ -59,6 +46,7 @@ func main() {
 	rootCmd.PersistentFlags().BoolVarP(&opts.Verbose, "verbose", "v", false, "Log verbose output")
 
 	rootCmd.AddCommand(cmd.ApplyCmd(opts))
+	rootCmd.AddCommand(cmd.CloneCmd(opts))
 	rootCmd.AddCommand(cmd.ListCmd(opts))
 
 	if err := rootCmd.Execute(); err != nil {

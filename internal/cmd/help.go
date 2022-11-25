@@ -76,7 +76,5 @@ func printAnnotation(w io.Writer, name, values string) {
 			table.EndRow()
 		}
 	}
-
-	// cspell:ignore nolint errcheck
 	table.Render() // nolint:errcheck
 }
