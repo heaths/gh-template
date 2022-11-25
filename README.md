@@ -1,5 +1,8 @@
 # Project Template Extension
 
+[![releases](https://img.shields.io/github/v/release/heaths/gh-template?logo=github)](https://github.com/heaths/gh-template/releases/latest)
+[![ci](https://github.com/heaths/gh-template/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/heaths/gh-template/actions/workflows/ci.yml)
+
 A [GitHub CLI] extension to format a project template.
 
 ## Install
@@ -15,10 +18,10 @@ gh extension install heaths/gh-template
 To create a new repository from a template and format it:
 
 ```bash
-gh repo clone <name> --template <template> --clone
-cd <template>
-gh template apply
+gh template clone <name> --template <template> --public
 ```
+
+![screenshot](assets/gh-template.gif)
 
 ## Templates
 
