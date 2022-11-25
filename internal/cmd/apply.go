@@ -21,6 +21,8 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 		Args:        cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			opts.GlobalOptions = globalOpts
+			globalOpts.EnsureRepository() // nolint:errcheck
+
 			return apply(opts)
 		},
 	}
