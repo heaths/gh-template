@@ -28,10 +28,6 @@ gh template clone <name> --template <template> --public
 You can format files in a template repository as template files.
 Template files contain a mix of text and actions surrounded by `{{` and `}}` e.g.,
 
-Directories and files are processed together alphabetically, so you only need to
-provide a default value and optional prompt for the first instance a parameter occurs
-alphabetically in the repository.
-
 ```markdown
 # {{param "name" "" "What is the project name?" | titlecase}}
 
@@ -40,6 +36,15 @@ This is an example repository {{param "github.owner"}}/{{param "github.repo"}}.
 
 You'll be prompted for any parameters not specified on the command line
 or already defined by the `apply` command.
+
+Directories and files are processed alphabetically, so you only need to
+provide a default value and optional prompt for the first instance a parameter occurs
+alphabetically in the repository.
+
+Because the _.github/workflows_ directory may contain workflows with `${{ }}` expressions,
+it is excluded automatically unless `--delims` is specified and not `{{` or `}}`.
+If you need to format workflows as a template, consider using alternate delimiters
+throughout your template repository e.g, `<%` and `%>`.
 
 ### Built-in parameters
 
@@ -84,6 +89,10 @@ the following functions are also available:
   on the returned value e.g., `date.Local.Year`.
 * `date.Year`\
   Returns the current UTC year.
+* `true`\
+  Returns `true`. Useful as a default value to accept y\[es\] or n\[o\] answers.
+* `false`\
+  Returns `false`. Useful as a default value to accept y\[es\] or n\[o\] answers.
 
 You can also nest function calls. To default a project name to the GitHub repo name, for example:
 
@@ -97,13 +106,6 @@ See the following template repositories for examples:
 
 * [heaths/template-golang](https://github.com/heaths/template-golang)
 * [heaths/template-rustlang](https://github.com/heaths/template-rustlang)
-
-### Notes
-
-The _.github/workflows_ directory may contain workflows with `${{ }}` expressions
-and is excluded automatically unless `--delims` is specified and not `{{` and `}}`.
-If you need to format workflows as a template, consider using alternate delimiters
-throughout your template repository like `<%` and `%>`.
 
 ## License
 
