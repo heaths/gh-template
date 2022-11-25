@@ -39,7 +39,7 @@ func applyFlags(c *cobra.Command, opts *applyOptions) {
 		if opts.exclusions == nil {
 			opts.exclusions = make([]string, 0, 1)
 		}
-		opts.exclusions = append(opts.exclusions, ".github")
+		opts.exclusions = append(opts.exclusions, ".github/workflows")
 
 		opts.language, err = language.Parse(lang)
 		if err != nil {
