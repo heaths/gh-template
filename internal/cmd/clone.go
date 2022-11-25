@@ -105,9 +105,12 @@ func clone(opts *cloneOptions) (err error) {
 		args = append(args, "--team", opts.team)
 	}
 
+	opts.Console.StartProgress("Creating repository " + opts.name)
 	_, _, err = gh.Exec(args...)
+	opts.Console.StopProgress()
+
 	if err != nil {
-		return
+		return fmt.Errorf("failed to create repository %s: %w", opts.name, err)
 	}
 
 	err = os.Chdir(opts.name)
