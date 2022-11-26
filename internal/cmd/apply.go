@@ -4,6 +4,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/heaths/gh-template/internal/git"
 	"github.com/heaths/go-template"
 	"github.com/spf13/cobra"
@@ -32,14 +34,26 @@ func ApplyCmd(globalOpts *GlobalOptions) *cobra.Command {
 }
 
 func applyFlags(c *cobra.Command, opts *applyOptions) {
+	var delims []string
 	var lang string
 
 	c.PreRunE = func(cmd *cobra.Command, args []string) (err error) {
-		// Always add .github to avoid processing workflows using ${{...}} expressions.
+		if cmd.Flags().Changed("delims") {
+			if len(delims) != 2 {
+				return fmt.Errorf("--delims requires both left,right delimiters")
+			}
+			opts.leftDelim = delims[0]
+			opts.rightDelim = delims[1]
+		}
+
+		// Always add .github to avoid processing workflows using ${{...}} expressions,
+		// unless delims are not "{{", "}}", or empty.
 		if opts.exclusions == nil {
 			opts.exclusions = make([]string, 0, 1)
 		}
-		opts.exclusions = append(opts.exclusions, ".github/workflows")
+		if opts.leftDelim == "" || opts.leftDelim == "{{" {
+			opts.exclusions = append(opts.exclusions, ".github/workflows")
+		}
 
 		opts.language, err = language.Parse(lang)
 		if err != nil {
@@ -53,6 +67,7 @@ func applyFlags(c *cobra.Command, opts *applyOptions) {
 		return
 	}
 
+	c.Flags().StringSliceVar(&delims, "delims", nil, "`left,right` delimiters to open and close template expressions")
 	c.Flags().StringSliceVarP(&opts.exclusions, "exclude", "x", nil, "Any `paths` to exclude using case-insensitive comparisons")
 	c.Flags().StringVarP(&lang, "language", "l", "en", "BCP-47 language for some template functions")
 	c.Flags().StringToStringVarP(&opts.params, "param", "p", nil, "Parameters to apply to project template as `name=value`")
@@ -61,6 +76,8 @@ func applyFlags(c *cobra.Command, opts *applyOptions) {
 type applyOptions struct {
 	*GlobalOptions
 
+	leftDelim  string
+	rightDelim string
 	exclusions []string
 	language   language.Tag
 	params     map[string]string
@@ -84,5 +101,6 @@ func apply(opts *applyOptions) error {
 		template.WithExclusions(opts.exclusions),
 		template.WithLanguage(opts.language),
 		template.WithLogger(opts.Log, opts.Verbose),
+		template.WithDelims(opts.leftDelim, opts.rightDelim),
 	)
 }

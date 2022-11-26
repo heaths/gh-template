@@ -28,6 +28,10 @@ gh template clone <name> --template <template> --public
 You can format files in a template repository as template files.
 Template files contain a mix of text and actions surrounded by `{{` and `}}` e.g.,
 
+Directories and files are processed together alphabetically, so you only need to
+provide a default value and optional prompt for the first instance a parameter occurs
+alphabetically in the repository.
+
 ```markdown
 # {{param "name" "" "What is the project name?" | titlecase}}
 
@@ -93,6 +97,13 @@ See the following template repositories for examples:
 
 * [heaths/template-golang](https://github.com/heaths/template-golang)
 * [heaths/template-rustlang](https://github.com/heaths/template-rustlang)
+
+### Notes
+
+The _.github/workflows_ directory may contain workflows with `${{ }}` expressions
+and is excluded automatically unless `--delims` is specified and not `{{` and `}}`.
+If you need to format workflows as a template, consider using alternate delimiters
+throughout your template repository like `<%` and `%>`.
 
 ## License
 
