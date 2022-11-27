@@ -43,6 +43,7 @@ func CloneCmd(globalOpts *GlobalOptions) *cobra.Command {
 	cmd.Flags().BoolVar(&opts.disableIssues, "disable-issues", false, "Disable issues in the new repository")
 	cmd.Flags().BoolVar(&opts.disableWiki, "disable-wiki", false, "Disable wiki in the new repository")
 	cmd.Flags().BoolVar(&opts.includeAllBranches, "include-all-branches", false, "Include all branches from template repository")
+	cmd.Flags().BoolVar(&opts.labels, "labels", false, "Clone labels from template repository")
 
 	// Do not determine which visibility to use; let `gh repo create` handle that downstream.
 	cmd.Flags().BoolVar(&opts.internal, "internal", false, "Make the new repository internal")
@@ -66,6 +67,7 @@ type cloneOptions struct {
 	disableIssues      bool
 	disableWiki        bool
 	includeAllBranches bool
+	labels             bool
 
 	internal bool
 	private  bool
@@ -108,7 +110,6 @@ func clone(opts *cloneOptions) (err error) {
 	opts.Console.StartProgress("Creating repository " + opts.name)
 	_, stderr, err := gh.Exec(args...)
 	opts.Console.StopProgress()
-
 	if err != nil {
 		fmt.Fprintln(opts.Console.Stderr(), stderr.String())
 		return fmt.Errorf("failed to create repository %s: %w", opts.name, err)
@@ -117,6 +118,16 @@ func clone(opts *cloneOptions) (err error) {
 	err = os.Chdir(opts.name)
 	if err != nil {
 		return fmt.Errorf("failed to change directory to %s: %w", opts.name, err)
+	}
+
+	if opts.labels {
+		opts.Console.StartProgress("Cloning labels")
+		_, stderr, err = gh.Exec("label", "clone", opts.template, "--force")
+		opts.Console.StopProgress()
+		if err != nil {
+			fmt.Fprintln(opts.Console.Stderr(), stderr.String())
+			return fmt.Errorf("failed to clone labels from %s: %w", opts.template, err)
+		}
 	}
 
 	// Now that we're in a repo...
