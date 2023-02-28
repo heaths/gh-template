@@ -80,6 +80,8 @@ the following functions are also available:
   Change the case of `<string>` to Title Case characters.
 * `uppercase <string>`\
   Change the case of `<string>` to UPPERCASE characters.
+* `replace <from> <to> <source>`\
+  Replaces all occurrences of `<from>` to `<to>` in the `<source>` string.
 * `date`\
   Returns the current UTC date-time.
 * `date.Format <layout>`\

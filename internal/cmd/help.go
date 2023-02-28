@@ -26,6 +26,7 @@ pluralize count thing	Pluralize thing based on count
 lowercase string	Make string lowercase
 titlecase string	Make string titlecase
 uppercase string	Make string uppercase
+replace from to source	Replace from with to in source
 date	Get UTC date
 date.Local	Get local date
 date.Year	Get year from date
