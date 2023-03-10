@@ -4,13 +4,13 @@ go 1.18
 
 require (
 	github.com/MakeNowJust/heredoc v1.0.0
-	github.com/cli/go-gh v1.0.0
+	github.com/cli/go-gh v1.2.1
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/heaths/go-console v0.8.0
 	github.com/heaths/go-template v0.6.0
 	github.com/spf13/cobra v1.6.1
 	github.com/stretchr/testify v1.8.1
-	golang.org/x/text v0.4.0
+	golang.org/x/text v0.7.0
 	gopkg.in/h2non/gock.v1 v1.1.2
 )
 
@@ -48,9 +48,9 @@ require (
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
 	golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa // indirect
 	golang.org/x/exp v0.0.0-20221114191408-850992195362 // indirect
-	golang.org/x/net v0.0.0-20220923203811-8be639271d50 // indirect
-	golang.org/x/sys v0.2.0 // indirect
-	golang.org/x/term v0.2.0 // indirect
+	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
