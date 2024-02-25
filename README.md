@@ -95,6 +95,8 @@ the following functions are also available:
   Returns `true`. Useful as a default value to accept y\[es\] or n\[o\] answers.
 * `false`\
   Returns `false`. Useful as a default value to accept y\[es\] or n\[o\] answers.
+* `deleteFile`\
+  Deletes the current file, or a list of file names relative to the repo root.
 
 You can also nest function calls. To default a project name to the GitHub repo name, for example:
 
