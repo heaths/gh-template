@@ -39,8 +39,12 @@ func main() {
 		SilenceUsage: true,
 	}
 
+	width, _, err := con.Size()
+	if err != nil {
+		width = 80
+	}
 	rootCmd.SetOut(con.Stdout())
-	rootCmd.SetHelpFunc(cmd.AppendHelpFunc(rootCmd.HelpFunc()))
+	rootCmd.SetHelpFunc(cmd.AppendHelpFunc(width, rootCmd.HelpFunc()))
 
 	rootCmd.PersistentFlags().StringVarP(&repo, "repo", "R", "", "Select another repository to use using the [HOST/]OWNER/REPO format")
 	rootCmd.PersistentFlags().BoolVarP(&opts.Verbose, "verbose", "v", false, "Log verbose output")
