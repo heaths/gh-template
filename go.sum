@@ -158,8 +158,8 @@ github.com/hashicorp/golang-lru v0.5.0/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ
 github.com/hashicorp/golang-lru v0.5.1/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
 github.com/heaths/go-console v0.8.0 h1:TIA9nOuwJHFeT2MQqoQSOwKiNix/CKcs30tDnKMEzSI=
 github.com/heaths/go-console v0.8.0/go.mod h1:gMpuVJakd6h3aqTcRvxvo6JM8mu3fMq0NdF95qLVFMg=
-github.com/heaths/go-template v0.6.0 h1:Efu+IGHNwDcEzVHlj0BYxhUC4PHYWg0XZ8lBzLbo7dI=
-github.com/heaths/go-template v0.6.0/go.mod h1:JRbKojkmSjVJuzscTqfkpuW4gdeftBFBgf74+btXZOM=
+github.com/heaths/go-template v0.7.0 h1:MQOY1iTFRBkvJNJ18T/yop4gH97kH4vGRlX5/sKtgnQ=
+github.com/heaths/go-template v0.7.0/go.mod h1:JRbKojkmSjVJuzscTqfkpuW4gdeftBFBgf74+btXZOM=
 github.com/henvic/httpretty v0.0.6 h1:JdzGzKZBajBfnvlMALXXMVQWxWMF/ofTy8C3/OSUTxs=
 github.com/henvic/httpretty v0.0.6/go.mod h1:X38wLjWXHkXT7r2+uK8LjCMne9rsuNaBLJ+5cU2/Pmo=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
