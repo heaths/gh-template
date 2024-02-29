@@ -31,6 +31,9 @@ date	Get UTC date
 date.Local	Get local date
 date.Year	Get year from date
 date.Format layout	Format date based on layout like time.Format()
+true	Returns true
+false	Returns false
+deleteFile	Deletes the current file, or a list of file names relative to the root
 `
 
 func annotations() map[string]string {
@@ -40,17 +43,17 @@ func annotations() map[string]string {
 	}
 }
 
-func AppendHelpFunc(original func(*cobra.Command, []string)) func(*cobra.Command, []string) {
+func AppendHelpFunc(width int, original func(*cobra.Command, []string)) func(*cobra.Command, []string) {
 	return func(c *cobra.Command, s []string) {
 		original(c, s)
 
 		annotations := c.Annotations
 		if annotations != nil {
 			if variables, ok := annotations["help:variables"]; ok {
-				printAnnotation(c.OutOrStdout(), "Variables:", variables)
+				printAnnotation(c.OutOrStdout(), width, "Variables:", variables)
 			}
 			if functions, ok := annotations["help:functions"]; ok {
-				printAnnotation(c.OutOrStdout(), "Functions:", functions)
+				printAnnotation(c.OutOrStdout(), width, "Functions:", functions)
 				fmt.Fprintln(c.OutOrStdout())
 				fmt.Fprintln(c.OutOrStdout(), "For more information about functions, see https://github.com/heaths/go-template")
 			}
@@ -58,13 +61,13 @@ func AppendHelpFunc(original func(*cobra.Command, []string)) func(*cobra.Command
 	}
 }
 
-func printAnnotation(w io.Writer, name, values string) {
+func printAnnotation(w io.Writer, width int, name, values string) {
 	// Print section name.
 	fmt.Fprintln(w)
 	fmt.Fprintln(w, name)
 
 	// Print value.
-	table := tableprinter.New(w, true, 80)
+	table := tableprinter.New(w, true, width)
 	for _, value := range strings.Split(values, "\n") {
 		value = strings.TrimSpace(value)
 		if value == "" {
